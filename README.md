@@ -90,22 +90,26 @@ Follow the next steps to scale up your entire cluster
 ## 6. Deploy lora server in kubernetes cluster
 
 * Deploy lora server 
+
   ``Go to kubernetes_files folder``
   ``Execute the next command:``
      ``kubectl create -f deployments/full-lora-deployment.yaml -s http://10.10.10.51:8080``  
      ``kubectl create -f services/full-lora-with-all-ports.yml -s http://10.10.10.51:8080``
 * Check the deployment
+
   ``kubectl get deployments``
 
 * Modify iptables to forward traffic in minion-1 and minion-2
+
  ``iptables -P FORWARD ACCEPT``
 
 * Check that lora server is running
+
 You can check the port assigned to our lora-app-server mapped to the 8080 port executing:
   ``kubectl get services``
 It must be a service called 'lora-full-services' which shows the mapped ports, so once we have it, go to your browser and look for:
 
-https://<minion-ip>:<mapped_port>
+https://<minion_ip>:<mapped_port>
 
 The minion-ip could be the minion-1 ip or the minion-2 ip, and the mapped port must be the one mapped to the 8080.
 
