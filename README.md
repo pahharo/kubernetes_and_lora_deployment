@@ -53,19 +53,18 @@ That's all ...
 
 Now check the entire cluster with the next tips
 
-* Go to minion-1 node and check nodes  
-  ``vagrant ssh minion-1``  
-  ``kubectl -s http://10.10.10.51:8080 get nodes`` it must show the two minions nodes ready and working
+* Go to master host and check the nodes
+  ``ssh root@master``
+  ``kubectl get nodes``
 
-* Go to minion-2 node and check nodes  
-  ``vagrant ssh minion-2``  
-  ``kubectl config set-cluster test-cluster --server=http://10.10.10.51:8080``  
-  ``kubectl config set-context test-cluster --cluster=test-cluster``  
-  ``kubectl config use-context test-cluster``  
-  ``kubectl get nodes`` it must show the two minions nodes ready and working
+  it must show the two minions nodes ready and working:
+  ``[root@master services-manu]# kubectl get nodes
+      NAME       STATUS    AGE
+     minion-1   Ready     112d
+     minion-2   Ready     112d``
 
-* Go to master node and check nodes  
-  ``vagrant ssh master``  
+  Check the cluster-info:
+
   ``kubectl cluster-info``  
 
 The above command must be show someting similar to:  
