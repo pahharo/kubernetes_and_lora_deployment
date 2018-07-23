@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lora-full-deployment
+  labels:
+    app: lora
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  progressDeadlineSeconds: 60  
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: lora
+    spec:
+      containers:
+      - image: m4nusl/lora-app-server
+        name: lora-app-server
+        ports:
+        - containerPort: 8080
+        - containerPort: 8000
+        resources: {}
+      - image: m4nusl/postgresql-loraserver
+        name: postgresql
+        ports:
+        - containerPort: 5432
+        resources: {}
+      - image: m4nusl/loraserver
+        name: loraserver
+        ports:
+        - containerPort: 8000
+        - containerPort: 8001
+        resources: {}
+      - image: m4nusl/lora-gateway-bridge
+        name: lora-gateway-bridge
+        ports:
+        - containerPort: 1700
+        resources: {}
+      - image: eclipse-mosquitto
+        name: mosquitto
+        ports:
+        - containerPort: 1883
+        resources: {}
+      - image: redis:4-alpine
+        name: redis
+        ports:
+        - containerPort: 6379
+        resources: {}
+      restartPolicy: Always
+status: {}
