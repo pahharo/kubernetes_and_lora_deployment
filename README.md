@@ -4,7 +4,7 @@ Deploy kubernetes on the fly, the project creates a ``master node and two minion
 it uses **Vagrant** with **KVM** as infrastecture provider (IaaS) and **Ansible** as configuration manager
 to automatically have a ready and functional **kubernetes cluster** in less than 15 minutes.
 
-As an extra the entire **kubernetes cluster** can be scalable if wished, the project has a **k8s-scale** project
+As an extra the entire **kubernetes cluster** can be scalable if wished, the project has a **k8s-scale** folder
 to **add a new minion** to the existing cluster.
 
 ## 1. Pre-requisites
@@ -37,7 +37,7 @@ one fine, it is going to be used later, otherwise proceed to ``Generate SSH Keys
 ## 3. Setup your kubernetes cluster
 
 * In the localhost just clone the repository   
-   ``git clone https://github.com/jvalderrama/k8s-cluster.git``
+   ``git clone https://github.com/pahharo/kubernetes_and_lora_deployment.git``
 
 * Go inside the folder k8s-cluster  
    ``cd k8s-cluster``
@@ -87,16 +87,16 @@ Follow the next steps to scale up your entire cluster
   ``vagrant ssh master``  
   ``kubectl get nodes --server=http://master.com:8080``  
 
-* Deploy a new pod inside the new minion node  
-  ``Replace file in /tmp/avg-api-rc.yml in line 6 **replicas: 2** key by **replicas: 3**``  
-  ``kubectl replace rc --filename=/tmp/avg-api-rc.yml``  
-
-* Check the new pod deployed in the new minion node (Must be appears three avg-api-controller-*, one of these deployed
-  in the new minion node)  
-  ``kubectl get pods``  
+* Deploy lora server 
+  ``Go to kubernetes_files folder``
+  ``Execute the next command:``
+     ``kubectl create -f deployments/full-lora-deployment.yaml -s http://10.10.10.51:8080``  
+     ``kubectl create -f services/full-lora-with-all-ports.yml -s http://10.10.10.51:8080``
+* Check the deployment
+  ``kubectl get deployments``  
 
 That's all, cluster has been scaled up !!!
 
 ## 6.Credits
 
-Thanks also to my partners @Noel_illo (Noel Ruiz Lopez) and @M4nu_sL (Manuel Sanchez Lopez) for your great job :)
+Thanks also to my partners @Noel_illo (Noel Ruiz Lopez) and @joedval (Jorge Valderrama) for your help :)
