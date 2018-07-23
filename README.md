@@ -101,18 +101,23 @@ Follow the next steps to scale up your entire cluster
 
 * Modify iptables to forward traffic in minion-1 and minion-2
 
- ``iptables -P FORWARD ACCEPT``
+  ``iptables -P FORWARD ACCEPT``
 
 * Check that lora server is running
 
-You can check the port assigned to our lora-app-server mapped to the 8080 port executing:
+  You can check the port assigned to our lora-app-server mapped to the 8080 port executing:
   ``kubectl get services``
-It must be a service called 'lora-full-services' which shows the mapped ports, so once we have it, go to your browser and look for:
+  It must be a service called 'lora-full-services' which shows the mapped ports, so once we have it, go to your browser and look for:
 
-https://<minion_ip>:<mapped_port>
+    https://<minion_ip>:<mapped_port>
 
-The minion-ip could be the minion-1 ip or the minion-2 ip, and the mapped port must be the one mapped to the 8080.
+  The minion-ip could be the minion-1 ip or the minion-2 ip, and the mapped port must be the one mapped to the 8080.
 
-## 7.Credits
+## 7. Script to update /etc/hosts with active minion ip.
+ 
+  In case that a minion would be down, we can execute the connectivity_script.sh in background, that will update the /etc/hosts file with the ip of the active minion associated to the name "lora-server". Then, if we want to do a request, we can send the request as:
+    https://lora-server:<mapped_port>
+
+## 8.Credits
 
 Thanks also to my partners @Noel_illo (Noel Ruiz Lopez) and @joedval (Jorge Valderrama) for your help :)
