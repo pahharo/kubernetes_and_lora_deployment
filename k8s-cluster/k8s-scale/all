@@ -1,0 +1,22 @@
+---
+# Variables listed here are applicable to all host groups
+
+#General Cluster Configuration
+master_hostname: master
+minions_hostnames: minion-1, minion-2, minion-3
+
+#Kubernetes API Configuration
+kubu_api_address: 0.0.0.0
+kube_api_port: 8080
+kubelet_port: 10250
+etcd_port_servers: 2379
+kube_service_address: 10.254.0.0/16
+args_cluster_dns: 10.254.254.254
+args_cluster_domain: cluster.local
+
+#Flannel Configuration
+SubnetLen: 24
+SubnetMin: 10.254.50.0
+SubnetMax: 10.254.199.0
+Backend_Type: vxlan
+Backend_VNI : 1

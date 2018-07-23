@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/manu/MASTER/k8s-cluster","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

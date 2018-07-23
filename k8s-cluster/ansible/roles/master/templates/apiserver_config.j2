@@ -1,0 +1,21 @@
+# The address on the local server to listen to.
+KUBE_API_ADDRESS="--insecure-bind-address={{ kube_api_address }}"
+
+# The port on the local server to listen on.
+KUBE_API_PORT="--port={{ kube_api_port }}"
+
+# Port minions listen on
+KUBELET_PORT="--kubelet_port={{ kubelet_port }}"
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS="--etcd_servers=http://{{ master_hostname }}.com:{{ etcd_port_servers }}"
+
+# Address range to use for services
+#KUBE_SERVICE_ADDRESSES="--portal_net=10.254.0.0/16"
+KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range={{ kube_service_address }}"
+
+# default admission control policies
+KUBE_ADMISSION_CONTROL="--admission_control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota"
+
+# Add you own!
+KUBE_API_ARGS=""

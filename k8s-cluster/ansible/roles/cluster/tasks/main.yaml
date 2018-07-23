@@ -1,0 +1,59 @@
+---
+- name: Containers | Installing dockers
+  action: yum pkg={{ item }} state=installed
+  with_items:
+    - docker
+    - docker-logrotate
+
+- name: Move docker-storage default file of docker to a backup
+  shell: mv /etc/sysconfig/docker-storage /etc/sysconfig/docker-storage.backup
+
+- name: Insert docker-storage file with devicewrapper driver
+  copy: src=docker-storage dest=/etc/sysconfig/docker-storage mode=0644
+
+#- name: Modify storage driver of docker for centos
+#  shell: sed -i -e 's/overlay2/devicemapper/g' /etc/sysconfig/docker-storage
+#  lineinfile: dest=/etc/sysconfig/docker-storage \
+#              regexp='^(.*)overlay(.*)$' \
+#              line='DOCKER_STORAGE_OPTIONS=\"--storage-driver devicemapper \"' \
+#              backrefs=yes
+
+- name: Start docker service
+  service: name=docker state=started enabled=yes
+
+- name: Create docker group
+  shell: groupadd docker
+  ignore_errors: yes
+
+- name: Add your vagrant user to the docker group
+  shell: gpasswd -a vagrant docker
+
+- name: Restart docker service
+  service: name=docker state=restarted
+
+- name: Cluster Orchestrator | Installing kubernetes
+  action: yum pkg={{ item }} state=installed
+  with_items:
+    - kubernetes
+    - etcd
+    - flannel
+
+- name: Configure kubernetes
+  template: src=kubernetes_config.j2 dest=/etc/kubernetes/config mode=0664
+
+- name: Configure ETCD Service
+  template: src=etcd_config.j2 dest=/etc/etcd/etcd.conf mode=0664
+
+- name: Configure Flannel Service
+  template: src=flannel_config.j2 dest=/etc/sysconfig/flanneld mode=0664
+
+- name: Build hosts file
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ hostvars[item].inventory_hostname }} {{ hostvars[item].cluster_host }} {{ hostvars[item].cluster_host }}.com"
+    state: present
+  with_items: "{{ groups.all }}"
+
+- name: Http | Intalling Http client library 
+  pip:
+    name: httplib2

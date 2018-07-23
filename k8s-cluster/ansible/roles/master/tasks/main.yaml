@@ -1,0 +1,55 @@
+---
+- name: Insert master to network configuration file
+  lineinfile:
+    dest: /etc/sysconfig/network
+    insertafter: EOF
+    line: 'hostname {{ master_hostname }}'
+
+- name: Restart network
+  service: name=network state=restarted
+
+- name: add google chrome repo
+  copy: src=google-chrome.repo dest=/etc/yum.repos.d/google-chrome.repo
+#- name: install google-chrome
+#  yum:
+#    name: google-chrome-stable
+#    state: latest
+
+- name: Configure Kube API Master 
+  template: src=apiserver_config.j2 dest=/etc/kubernetes/apiserver mode=0664
+
+- name: Configure Controller Manager
+  template: src=controller_manager_config.j2 dest=/etc/kubernetes/controller-manager mode=0664
+
+- name: Creates directory for flannel key
+  file: path=/flannel/network state=directory mode=0755
+
+- name: Copy Flannel json
+  template: src=flannel_config.j2 dest=/flannel/network/flannel_config.json mode=0777
+
+- name: Enable and Restart kube-apiserver
+  service: name=kube-apiserver enabled=yes state=restarted
+
+- name: Enable and Restart kube-controller-manager
+  service: name=kube-controller-manager enabled=yes state=restarted
+
+- name: Enable and Restart kube-scheduler
+  service: name=kube-scheduler enabled=yes state=restarted
+
+- name: Enable and Restart ETCD
+  service: name=etcd  enabled=yes state=restarted
+
+- name: Ask for Flanneld key
+  uri:
+    url: "http://{{ master_hostname }}.com:2379/v2/keys/flannel/network/config"
+    method: PUT
+    body: "value={{ lookup('template','./flannel_config.j2') | to_nice_json}}"
+    status_code: 201, 200
+    return_content: yes
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    dest: "/flannel/network/config"
+  ignore_errors: True
+
+- name: Enable and Restart flanneld
+  service: name=flanneld  enabled=yes state=restarted

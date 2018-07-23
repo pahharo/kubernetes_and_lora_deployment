@@ -1,0 +1,38 @@
+---
+# DNS Configuration
+- name: Copy skydns-svc.yml
+  copy: src=skydns-svc.yml dest=/tmp/skydns-svc.yml mode=0664
+
+- name: Copy skydns-rc.yml
+  copy: src=skydns-rc.yml dest=/tmp/skydns-rc.yml mode=0664
+
+- name: Create skydns-svc
+  shell: kubectl create -f /tmp/skydns-svc.yml
+  ignore_errors: True
+
+- name: Create skydns-rc
+  shell: kubectl create -f /tmp/skydns-rc.yml
+  ignore_errors: True
+
+# Dashboard
+- name: Add kubernetes-dashboard.yaml to path
+  copy: src=kubernetes-dashboard.yml dest=/tmp/kubernetes-dashboard.yml mode=0664
+
+- name: Create Kubernetes Dashboard
+  shell: kubectl create -f /tmp/kubernetes-dashboard.yml
+  ignore_errors: True
+
+#Avg API
+- name: Copy avg-api-rc.yml
+  copy: src=avg-api-rc.yml dest=/tmp/avg-api-rc.yml mode=0664
+
+- name: Copy avg-api-svc.yml
+  copy: src=avg-api-svc.yml dest=/tmp/avg-api-svc.yml mode=0664
+
+- name: Create avg-api-rc
+  shell: kubectl create -f /tmp/avg-api-rc.yml
+  ignore_errors: True
+
+- name: Create avg-api-svc
+  shell: kubectl create -f /tmp/avg-api-svc.yml
+  ignore_errors: True

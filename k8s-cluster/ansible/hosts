@@ -1,0 +1,9 @@
+[master]
+10.10.10.51
+[minions]
+10.10.10.52
+10.10.10.53
+[cluster]
+10.10.10.51 cluster_host=master
+10.10.10.52 cluster_host=minion-1
+10.10.10.53 cluster_host=minion-2

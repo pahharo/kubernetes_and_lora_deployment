@@ -1,0 +1,20 @@
+---
+- hosts: cluster
+  become: true
+  roles:
+    - cluster
+
+- hosts: master
+  become: true
+  roles:
+    - master
+
+- hosts: minions
+  become: true
+  roles:
+    - minion
+
+- hosts: master
+  become: true
+  roles:
+    - master_post
