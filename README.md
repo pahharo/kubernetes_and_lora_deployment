@@ -58,9 +58,9 @@ Now check the entire cluster with the next tips
   ``kubectl get nodes``
 
   it must show the two minions nodes ready and working:
-  ``[root@master services-manu]# kubectl get nodes``
-    ``NAME       STATUS    AGE``
-    ``minion-1   Ready     112d``
+  ``[root@master services-manu]# kubectl get nodes``\n
+    ``NAME       STATUS    AGE``\n
+    ``minion-1   Ready     112d``\n
     ``minion-2   Ready     112d``
 
   Check the cluster-info:
