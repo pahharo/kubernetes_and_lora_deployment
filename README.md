@@ -91,8 +91,8 @@ Follow the next steps to scale up your entire cluster
 
 * Deploy lora server 
 
-  ``Go to kubernetes_files folder``
-  ``Execute the next command:``
+  Go to kubernetes_files folder and execute the next command:
+
      ``kubectl create -f deployments/full-lora-deployment.yaml -s http://10.10.10.51:8080``  
      ``kubectl create -f services/full-lora-with-all-ports.yml -s http://10.10.10.51:8080``
 * Check the deployment
