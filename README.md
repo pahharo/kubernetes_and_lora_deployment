@@ -15,7 +15,7 @@ to **add a new minion** to the existing cluster.
 * Vagrant libvirt plugin for KVM
 * Ansible 2.2.1 or higher
 
-# 1.1. Cluster service versions working.
+### 1.1. Cluster service versions working.
 
   * kubernetes: 1.5.2
   * etcd: 3.2.15
