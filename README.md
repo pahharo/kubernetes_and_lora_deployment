@@ -15,6 +15,13 @@ to **add a new minion** to the existing cluster.
 * Vagrant libvirt plugin for KVM
 * Ansible 2.2.1 or higher
 
+# 1.1. Cluster service versions working.
+
+  * kubernetes: 1.5.2
+  * etcd: 3.2.15
+  * flanneld: 0.7.1
+  * docker: 1.13.1
+
 ## 2. Prepare your localhost environment
 
 The first thing is check that you localhost support virtualization, just type 
