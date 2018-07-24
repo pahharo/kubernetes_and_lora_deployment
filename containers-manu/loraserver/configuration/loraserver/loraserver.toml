@@ -55,7 +55,7 @@ automigrate=true
 #
 # For more information about the Redis URL format, see:
 # https://www.iana.org/assignments/uri-schemes/prov/redis
-url="redis://redis:6379"
+url="redis://localhost:6379"
 
 
 # Network-server settings.
